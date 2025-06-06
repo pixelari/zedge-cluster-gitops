@@ -1,0 +1,13 @@
+global:
+  logging:
+    format: json
+  additionalLabels:
+    app.kubernetes.io/environment: dev
+configs:
+  params:
+    timeout.reconciliation: 60
+    server.rootpath: "/argo-cd"
+    server.insecure: "true"
+  cm:
+    resource.compareoptions: |
+      ignoreAggregatedRoles: true
