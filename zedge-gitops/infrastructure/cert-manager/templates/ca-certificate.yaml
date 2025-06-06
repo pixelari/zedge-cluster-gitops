@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: zedge-ca
+  name: {{ .Values.localCa.name }}
   labels:
     {{- include "zedge-application.labels" . | nindent 4 }}
   annotations:
@@ -12,9 +12,9 @@ metadata:
 spec:
   isCA: true
   commonName: "{{ .Values.localCa.domain }} Root CA"
-  secretName: zedge-ca-keypair
+  secretName: {{ .Values.localCa.secretName }}
   issuerRef:
-    name: selfsigned-issuer
+    name: {{ .Values.selfSigned.name }}
     kind: ClusterIssuer
   duration: 8760h
   privateKey:

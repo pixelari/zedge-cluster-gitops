@@ -2,16 +2,20 @@ environment: test
 
 selfSigned:
   enabled: true
-  name: local-issuer
+  name: selfsigned-issuer
 
 localCa:
   enabled: true
-  name: zedge-ca
+  name: zedge-local-ca
   namespace: emissary
   domain: zedge.local
+  secretName: zedge-local-ca-keypair
+  issuerName: zedge-local-ca-issuer
 
 localCert:
   enabled: true
+  name: zedge-local-cert
+  secretName: zedge-local-cert-tls
   duration: 168h
   renewBefore: 24h
   domain: zedge.local

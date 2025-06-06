@@ -3,12 +3,12 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: zedge-ca-issuer
+  name: {{ .Values.localCa.issuerName }}
   labels:
     {{- include "zedge-application.labels" . | nindent 4 }}
   annotations:
     {{- include "zedge-application.annotations" . | nindent 4 }}
 spec:
   ca:
-    secretName: zedge-ca-keypair
+    secretName: {{ .Values.localCa.secretName }}
 {{- end }}
