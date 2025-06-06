@@ -1,8 +1,20 @@
 environment: test
 
-certIssuer:
+selfSigned:
   enabled: true
   name: local-issuer
+
+localCa:
+  enabled: true
+  name: zedge-ca
+  namespace: emissary
+  domain: zedge.local
+
+localCert:
+  enabled: true
+  duration: 168h
+  renewBefore: 24h
+  domain: zedge.local
 
 cert-manager:
   crds:

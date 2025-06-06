@@ -1,0 +1,13 @@
+{{- if .Values.selfSigned.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.selfSigned.name }}
+  labels:
+    {{- include "zedge-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "zedge-application.annotations" . | nindent 4 }}
+spec:
+  selfSigned: {}
+{{- end }}

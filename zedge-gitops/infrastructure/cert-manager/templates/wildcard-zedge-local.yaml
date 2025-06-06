@@ -1,0 +1,21 @@
+{{- if .Values.localCert.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zedge-local-cert
+  namespace: {{ .Values.localCa.namespace }}
+  labels:
+    {{- include "zedge-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "zedge-application.annotations" . | nindent 4 }}
+spec:
+  secretName: zedge-local-cert-tls
+  dnsNames:
+    - "*.{{ .Values.localCert.domain }}"
+  issuerRef:
+    name: zedge-ca-issuer
+    kind: ClusterIssuer
+  duration: {{ .Values.localCert.duration }}
+  renewBefore: {{ .Values.localCert.renewBefore }}
+{{- end }}
