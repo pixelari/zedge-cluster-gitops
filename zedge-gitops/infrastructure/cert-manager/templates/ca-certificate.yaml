@@ -4,11 +4,11 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .Values.localCa.name }}
+  namespace: cert-manager
   labels:
     {{- include "zedge-application.labels" . | nindent 4 }}
   annotations:
     {{- include "zedge-application.annotations" . | nindent 4 }}
-  namespace: {{ .Values.localCa.namespace }}
 spec:
   isCA: true
   commonName: "{{ .Values.localCa.domain }} Root CA"
