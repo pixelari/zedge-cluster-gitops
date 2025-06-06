@@ -1,0 +1,9 @@
+environment: test
+
+certIssuer:
+  enabled: true
+  name: local-issuer
+
+cert-manager:
+  crds:
+    enabled: true

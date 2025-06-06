@@ -1,0 +1,9 @@
+apiVersion: v2
+name: zedge-cert-manager
+description: A Helm chart for Zedge Cert Manager deployment.
+type: application
+version: 0.1.0
+dependencies:
+  - name: cert-manager
+    version: v1.17.2
+    repository: https://charts.jetstack.io
