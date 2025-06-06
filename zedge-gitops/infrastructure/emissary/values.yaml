@@ -1,0 +1,2 @@
+emissary-ingress:
+  replicaCount: 1

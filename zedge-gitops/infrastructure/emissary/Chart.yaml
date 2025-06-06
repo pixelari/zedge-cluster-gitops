@@ -1,0 +1,9 @@
+apiVersion: v2
+name: zedge-emissary
+description: A Helm chart for Zedge Emissary deployment.
+type: application
+version: 0.1.0
+dependencies:
+  - name: emissary-ingress
+    version: 8.12.2
+    repository: https://app.getambassador.io
