@@ -6,8 +6,10 @@ global:
 configs:
   params:
     timeout.reconciliation: 60
-    server.rootpath: "/argo-cd"
     server.insecure: "true"
   cm:
     resource.compareoptions: |
       ignoreAggregatedRoles: true
+    resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+      jsonPointers:
+      - /spec/preserveUnknownFields

@@ -10,7 +10,7 @@ metadata:
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
-  host: argocd.{{ .Values.ingress.domain }}
+  host: argocd.{{ .Values.ingress.domain }}:*
   prefix: /
   service: {{ .Values.ingress.argocd.service }}
   timeout_ms: 30000

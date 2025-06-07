@@ -9,7 +9,7 @@ metadata:
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
-  hostname: "*.{{ .Values.ingress.domain }}"
+  hostname: "*"
   tlsSecret:
     name: {{ .Values.ingress.tlsSecret }}
   acmeProvider:
