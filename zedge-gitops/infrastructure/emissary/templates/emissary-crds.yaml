@@ -1,4 +1,5 @@
 # GENERATED FILE: edits made by hand will not be preserved.
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -18,8 +19,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -399,8 +398,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -533,8 +530,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -904,199 +899,6 @@ metadata:
     app.kubernetes.io/managed-by: kubectl_apply_-f_emissary-apiext.yaml
     app.kubernetes.io/name: emissary-apiext
     app.kubernetes.io/part-of: emissary-apiext
-  name: envoyfilterpolicies.getambassador.io
-spec:
-  group: getambassador.io
-  names:
-    categories:
-    - ambassador-crds
-    kind: EnvoyFilterPolicy
-    listKind: EnvoyFilterPolicyList
-    plural: envoyfilterpolicies
-    singular: envoyfilterpolicy
-  preserveUnknownFields: false
-  scope: Namespaced
-  versions:
-  - name: v3alpha1
-    schema:
-      openAPIV3Schema:
-        properties:
-          apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-            type: string
-          kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-            type: string
-          metadata:
-            type: object
-          spec:
-            properties:
-              ambassador_id:
-                description: "AmbassadorID declares which Ambassador instances should
-                  pay attention to this resource. If no value is provided, the default
-                  is: \n ambassador_id: - \"default\""
-                items:
-                  type: string
-                type: array
-              rules:
-                items:
-                  properties:
-                    envoyFilters:
-                      items:
-                        properties:
-                          name:
-                            type: string
-                          namespace:
-                            type: string
-                        required:
-                        - name
-                        - namespace
-                        type: object
-                      type: array
-                    precedence:
-                      description: Multiple EnvoyFilterPolicy resources can be applied
-                        to a cluster. Incoming requests run only the EnvoyFilters
-                        under the first EnvoyFilterPolicy rule that is matched. Precedence
-                        offers an optional way to specify the ordering of rules when
-                        a request might match more than one rule.
-                      type: integer
-                  required:
-                  - envoyFilters
-                  type: object
-                minItems: 1
-                type: array
-            required:
-            - rules
-            type: object
-        required:
-        - spec
-        type: object
-    served: true
-    storage: true
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
-  labels:
-    app.kubernetes.io/instance: emissary-apiext
-    app.kubernetes.io/managed-by: kubectl_apply_-f_emissary-apiext.yaml
-    app.kubernetes.io/name: emissary-apiext
-    app.kubernetes.io/part-of: emissary-apiext
-  name: envoyfilters.getambassador.io
-spec:
-  group: getambassador.io
-  names:
-    categories:
-    - ambassador-crds
-    kind: EnvoyFilter
-    listKind: EnvoyFilterList
-    plural: envoyfilters
-    singular: envoyfilter
-  preserveUnknownFields: false
-  scope: Namespaced
-  versions:
-  - name: v3alpha1
-    schema:
-      openAPIV3Schema:
-        properties:
-          apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-            type: string
-          kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-            type: string
-          metadata:
-            type: object
-          spec:
-            properties:
-              ambassador_id:
-                description: "AmbassadorID declares which Ambassador instances should
-                  pay attention to this resource. If no value is provided, the default
-                  is: \n ambassador_id: - \"default\""
-                items:
-                  type: string
-                type: array
-              filterType:
-                description: filterType specifies which filter type this is
-                enum:
-                - wasm
-                type: string
-              wasm:
-                description: wasm contains the configuration for a wasm type filter
-                properties:
-                  allowPrecompiledWASM:
-                    description: allowPrecompiledWASM determines whether or not precompiled
-                      wasm is allowed
-                    type: boolean
-                  customConfig:
-                    description: customConfig is an optional string that can be used
-                      to pass some context or configuration to the wasm filter
-                    type: string
-                  failureModeAllow:
-                    description: failureModeAllow when set to true, allows requests
-                      in the event of a fatal error running the wasm filter
-                    type: boolean
-                  filePath:
-                    description: filePath is the path to a .wasm file on the Edge
-                      Stack pod filesystem
-                    minLength: 1
-                    type: string
-                  rootID:
-                    description: rootID sets the root_id of the virtual machine created
-                      for this wasm filter. must be non-empty and only include alphanumeric
-                      characters, hyphens, or underscores.
-                    minLength: 1
-                    pattern: ^[a-zA-Z0-9-_]+$
-                    type: string
-                  runtime:
-                    description: runtime specifies which of the supported wasm runtimes
-                      to use Runtime is constrained to known supported runtimes.
-                    enum:
-                    - envoy.wasm.runtime.v8
-                    - envoy.wasm.runtime.wavm
-                    type: string
-                  vmID:
-                    description: vmID sets the vm_id of the virtual machine created
-                      for this wasm filter must be non-empty and only include alphanumeric
-                      characters, hyphens, or underscores.
-                    minLength: 1
-                    pattern: ^[a-zA-Z0-9-_]+$
-                    type: string
-                required:
-                - filePath
-                - rootID
-                - runtime
-                - vmID
-                type: object
-            required:
-            - filterType
-            type: object
-        required:
-        - spec
-        type: object
-    served: true
-    storage: true
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
-  labels:
-    app.kubernetes.io/instance: emissary-apiext
-    app.kubernetes.io/managed-by: kubectl_apply_-f_emissary-apiext.yaml
-    app.kubernetes.io/name: emissary-apiext
-    app.kubernetes.io/part-of: emissary-apiext
   name: hosts.getambassador.io
 spec:
   conversion:
@@ -1106,8 +908,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -1186,14 +986,8 @@ spec:
                       notation."
                     properties:
                       name:
-                        default: ""
-                        description: 'Name of the referent. This field is effectively
-                          required, but due to backwards compatibility is allowed
-                          to be empty. Instances of this type with an empty value
-                          here are almost certainly wrong. TODO: Add other useful
-                          fields. apiVersion, kind, uid? More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                          TODO: Drop `kubebuilder:default` when controller-gen doesn''t
-                          need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.'
+                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Add other useful fields. apiVersion, kind, uid?'
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -1262,13 +1056,11 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
-                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
@@ -1328,14 +1120,8 @@ spec:
                   not by adopting the `{name}.{namespace}` notation."
                 properties:
                   name:
-                    default: ""
-                    description: 'Name of the referent. This field is effectively
-                      required, but due to backwards compatibility is allowed to be
-                      empty. Instances of this type with an empty value here are almost
-                      certainly wrong. TODO: Add other useful fields. apiVersion,
-                      kind, uid? More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                      TODO: Drop `kubebuilder:default` when controller-gen doesn''t
-                      need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.'
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
@@ -1474,14 +1260,8 @@ spec:
                       notation."
                     properties:
                       name:
-                        default: ""
-                        description: 'Name of the referent. This field is effectively
-                          required, but due to backwards compatibility is allowed
-                          to be empty. Instances of this type with an empty value
-                          here are almost certainly wrong. TODO: Add other useful
-                          fields. apiVersion, kind, uid? More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                          TODO: Drop `kubebuilder:default` when controller-gen doesn''t
-                          need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.'
+                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Add other useful fields. apiVersion, kind, uid?'
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -1528,13 +1308,11 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
-                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
@@ -1604,13 +1382,11 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
-                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
@@ -1670,14 +1446,8 @@ spec:
                   not by adopting the `{name}.{namespace}` notation."
                 properties:
                   name:
-                    default: ""
-                    description: 'Name of the referent. This field is effectively
-                      required, but due to backwards compatibility is allowed to be
-                      empty. Instances of this type with an empty value here are almost
-                      certainly wrong. TODO: Add other useful fields. apiVersion,
-                      kind, uid? More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                      TODO: Drop `kubebuilder:default` when controller-gen doesn''t
-                      need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.'
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
@@ -1770,8 +1540,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -1893,8 +1661,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -2039,9 +1805,6 @@ spec:
     - jsonPath: .spec.l7Depth
       name: L7Depth
       type: string
-    - jsonPath: .spec.internal_address_config
-      name: InternalAddressConfig
-      type: string
     name: v3alpha1
     schema:
       openAPIV3Schema:
@@ -2117,13 +1880,11 @@ spec:
                               items:
                                 type: string
                               type: array
-                              x-kubernetes-list-type: atomic
                           required:
                           - key
                           - operator
                           type: object
                         type: array
-                        x-kubernetes-list-type: atomic
                       matchLabels:
                         additionalProperties:
                           type: string
@@ -2135,34 +1896,6 @@ spec:
                         type: object
                     type: object
                     x-kubernetes-map-type: atomic
-                type: object
-              internal_address_config:
-                description: InternalAddressConfig allows configuration of addresses
-                  deemed as internal
-                properties:
-                  cidr_ranges:
-                    description: List of CIDR ranges that are treated as internal.
-                      If unset, then RFC1918 / RFC4193 IP addresses will be considered
-                      internal.
-                    items:
-                      description: CIDRRange represents the range of IP Addresses
-                        to be treated as internal
-                      properties:
-                        address_prefix:
-                          description: 'AddressPrefix: IPv4 or IPv6 address, e.g.
-                            192.0.0.0 or 2001:db8::'
-                          type: string
-                        prefix_len:
-                          description: 'PrefixLength: Length of prefix, e.g. 0, 32.
-                            Defaults to 0 when unset.'
-                          format: int32
-                          type: integer
-                      type: object
-                    type: array
-                  unix_sockets:
-                    description: 'UnixSockets: Whether unix socket addresses should
-                      be considered internal.'
-                    type: boolean
                 type: object
               l7Depth:
                 description: L7Depth specifies how many layer 7 load balancers are
@@ -2245,8 +1978,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -2470,8 +2201,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -4136,8 +3865,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -4269,8 +3996,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -4511,8 +4236,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -4805,8 +4528,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -5065,8 +4786,6 @@ spec:
         service:
           name: emissary-apiext
           namespace: emissary-system
-          path: /webhooks/crd-convert
-          port: 443
       conversionReviewVersions:
       - v1
   group: getambassador.io
@@ -5477,10 +5196,18 @@ spec:
     served: true
     storage: false
 ---
+################################################################################
+# Namespace                                                                    #
+################################################################################
+---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: emissary-system
+---
+################################################################################
+# ServiceAccount                                                               #
+################################################################################
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -5492,6 +5219,10 @@ metadata:
     app.kubernetes.io/managed-by: kubectl_apply_-f_emissary-apiext.yaml
     app.kubernetes.io/name: emissary-apiext
     app.kubernetes.io/part-of: emissary-apiext
+---
+################################################################################
+# Cluster permissions                                                          #
+################################################################################
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -5507,13 +5238,11 @@ rules:
     resources: [ "customresourcedefinitions" ]
     verbs: [ "list", "watch" ]
   - apiGroups: [ "apiextensions.k8s.io" ]
-    resources: [ "customresourcedefinitions", "customresourcedefinitions/status" ]
+    resources: [ "customresourcedefinitions" ]
     resourceNames:
       - authservices.getambassador.io
       - consulresolvers.getambassador.io
       - devportals.getambassador.io
-      - envoyfilterpolicies.getambassador.io
-      - envoyfilters.getambassador.io
       - hosts.getambassador.io
       - kubernetesendpointresolvers.getambassador.io
       - kubernetesserviceresolvers.getambassador.io
@@ -5545,6 +5274,10 @@ subjects:
     namespace: emissary-system
     name: emissary-apiext
 ---
+################################################################################
+# Namespaced permissions                                                       #
+################################################################################
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -5558,21 +5291,11 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["create", "list", "watch"]
+    verbs: ["create"]
   - apiGroups: [""]
     resources: ["secrets"]
     resourceNames: ["emissary-ingress-webhook-ca"]
     verbs: ["get", "update"]
-  - apiGroups: ["coordination.k8s.io"]
-    resources: ["leases"]
-    verbs: ["create"]
-  - apiGroups: ["coordination.k8s.io"]
-    resourceNames: ["emissary-ca-mgr-leader"]
-    resources: ["leases"]
-    verbs: ["get", "update"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -5592,6 +5315,10 @@ subjects:
 - kind: ServiceAccount
   namespace: emissary-system
   name: emissary-apiext
+---
+################################################################################
+# Main                                                                         #
+################################################################################
 ---
 apiVersion: v1
 kind: Service
@@ -5642,10 +5369,9 @@ spec:
       serviceAccountName: emissary-apiext
       containers:
         - name: emissary-apiext
-          image: docker.io/datawire/emissary:3.12.2
+          image: docker.io/emissaryingress/emissary:3.9.1
           imagePullPolicy: IfNotPresent
           command: [ "apiext", "emissary-apiext" ]
-          args: ["--crd-label-selector", "app.kubernetes.io/part-of=emissary-apiext"]
           ports:
             - name: http
               containerPort: 8080
