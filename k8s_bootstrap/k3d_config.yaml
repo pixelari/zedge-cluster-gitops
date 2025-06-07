@@ -1,7 +1,7 @@
 apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
-  name: zedge-dev
+  name: farm
 servers: 1
 agents: 2
 

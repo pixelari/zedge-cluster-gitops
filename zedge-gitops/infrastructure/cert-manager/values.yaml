@@ -4,21 +4,21 @@ selfSigned:
   enabled: true
   name: selfsigned-issuer
 
+domain: farm
+
 localCa:
   enabled: true
-  name: zedge-local-ca
+  name: farm-ca
   namespace: emissary
-  domain: zedge.local
-  secretName: zedge-local-ca-keypair
-  issuerName: zedge-local-ca-issuer
+  secretName: farm-ca-keypair
+  issuerName: farm-ca-issuer
 
 localCert:
   enabled: true
-  name: zedge-local-cert
-  secretName: zedge-local-cert-tls
+  name: farm-cert
+  secretName: farm-cert-tls
   duration: 168h
   renewBefore: 24h
-  domain: zedge.local
 
 cert-manager:
   crds:

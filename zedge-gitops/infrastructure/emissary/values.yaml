@@ -1,4 +1,13 @@
 emissary-ingress:
   replicaCount: 1
-  service:
-    type: ClusterIP
+
+  prometheusExporter:
+    enabled: true
+
+ingress:
+  enabled: true
+  tlsSecret: farm-cert-tls
+  domain: farm
+  argocd:
+    enabled: true
+    service: argocd-server.argocd:80

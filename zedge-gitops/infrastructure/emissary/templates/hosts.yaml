@@ -1,0 +1,20 @@
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: wildcard-{{ .Values.ingress.domain }}
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  hostname: "*.{{ .Values.ingress.domain }}"
+  tlsSecret:
+    name: {{ .Values.ingress.tlsSecret }}
+  acmeProvider:
+    authority: none
+  requestPolicy:
+    insecure:
+      action: Route
+{{- end }}

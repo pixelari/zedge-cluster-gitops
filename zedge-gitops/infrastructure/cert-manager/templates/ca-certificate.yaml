@@ -6,12 +6,17 @@ metadata:
   name: {{ .Values.localCa.name }}
   namespace: cert-manager
   labels:
-    {{- include "zedge-application.labels" . | nindent 4 }}
+    {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
-    {{- include "zedge-application.annotations" . | nindent 4 }}
+    {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   isCA: true
-  commonName: "{{ .Values.localCa.domain }} Root CA"
+  commonName: "{{ .Values.domain | title }} Root CA"
+  subject:
+    organizations:
+      - "{{ .Values.domain | title }} Org"
+    organizationalUnits:
+      - "Platform Team"
   secretName: {{ .Values.localCa.secretName }}
   issuerRef:
     name: {{ .Values.selfSigned.name }}

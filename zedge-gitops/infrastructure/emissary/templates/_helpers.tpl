@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "zedge-application.name" -}}
+{{- define "farm-application.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "zedge-application.fullname" -}}
+{{- define "farm-application.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,15 +26,15 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "zedge-application.chart" -}}
+{{- define "farm-application.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "zedge-application.labels" -}}
-{{ include "zedge-application.selectorLabels" . }}
+{{- define "farm-application.labels" -}}
+{{ include "farm-application.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,8 +45,8 @@ app.kubernetes.io/environment: {{ .Values.environment }}
 {{/*
 Common annotations
 */}}
-{{- define "zedge-application.annotations" -}}
-meta.helm.sh/chart: {{ include "zedge-application.chart" . }}
+{{- define "farm-application.annotations" -}}
+meta.helm.sh/chart: {{ include "farm-application.chart" . }}
 meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 meta.helm.sh/release-name: {{ .Release.Name }}
 {{- end }}
@@ -54,17 +54,17 @@ meta.helm.sh/release-name: {{ .Release.Name }}
 {{/*
 Selector labels
 */}}
-{{- define "zedge-application.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "zedge-application.name" . }}
+{{- define "farm-application.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "farm-application.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "zedge-application.serviceAccountName" -}}
+{{- define "farm-application.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "zedge-application.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "farm-application.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

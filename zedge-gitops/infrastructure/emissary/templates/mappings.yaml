@@ -1,0 +1,18 @@
+{{- if .Values.ingress.argocd.enabled }}
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: argocd-{{ .Values.ingress.domain }}
+  labels:
+    emissary-host: argocd-{{ .Values.ingress.domain }}
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  host: argocd.{{ .Values.ingress.domain }}
+  prefix: /
+  service: {{ .Values.ingress.argocd.service }}
+  timeout_ms: 30000
+  connect_timeout_ms: 30000
+{{- end }}

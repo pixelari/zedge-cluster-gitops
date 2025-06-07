@@ -1,6 +1,6 @@
 apiVersion: v2
-name: zedge-cert-manager
-description: A Helm chart for Zedge Cert Manager deployment.
+name: farm-cert-manager
+description: A Helm chart for Farm Cert Manager deployment.
 type: application
 version: 0.1.0
 dependencies:

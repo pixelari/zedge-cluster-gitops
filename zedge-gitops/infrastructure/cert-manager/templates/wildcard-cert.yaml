@@ -6,13 +6,21 @@ metadata:
   name: {{ .Values.localCert.name }}
   namespace: {{ .Values.localCa.namespace }}
   labels:
-    {{- include "zedge-application.labels" . | nindent 4 }}
+    {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
-    {{- include "zedge-application.annotations" . | nindent 4 }}
+    {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   secretName: {{ .Values.localCert.secretName }}
   dnsNames:
-    - "*.{{ .Values.localCert.domain }}"
+    - "*.{{ .Values.domain }}"
+  commonName: "*.{{ .Values.domain }}"
+  subject:
+    organizations:
+      - "{{ .Values.domain | title }} Org"
+    organizationalUnits:
+      - "Platform Team"
+    countries:
+      - "LT"
   issuerRef:
     name: {{ .Values.localCa.issuerName }}
     kind: ClusterIssuer
