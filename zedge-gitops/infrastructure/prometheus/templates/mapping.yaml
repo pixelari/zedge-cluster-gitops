@@ -3,9 +3,8 @@
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: grafana-{{ .Values.ingress.domain }}
+  name: grafana-mapping
   labels:
-    emissary-host: grafana-{{ .Values.ingress.domain }}
     {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
@@ -22,9 +21,8 @@ spec:
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: prom-{{ .Values.ingress.domain }}
+  name: prom-mapping
   labels:
-    emissary-host: prom-{{ .Values.ingress.domain }}
     {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
