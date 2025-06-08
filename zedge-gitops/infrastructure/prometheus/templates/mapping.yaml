@@ -29,7 +29,7 @@ metadata:
 spec:
   hostname: {{ .Values.prometheus.hostname }}
   prefix: /
-  service: prometheus-stack-grafana.platform:80
+  service: prometheus-stack-kube-prom-prometheus:9090
   timeout_ms: 30000
   connect_timeout_ms: 30000
 {{- end }}

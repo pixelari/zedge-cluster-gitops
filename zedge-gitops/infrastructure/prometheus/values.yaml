@@ -8,7 +8,7 @@ kube-prometheus-stack:
     persitence:
       enabled: false
     imageRenderer:
-      enabled: true
+      enabled: false
     grafana.ini:
       server:
         root_url: grafana.farm:8080
