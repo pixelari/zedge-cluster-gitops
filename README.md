@@ -33,14 +33,13 @@ This will:
 │   │   ├── cert-manager
 │   │   ├── emissary
 │   │   └── prometheus
-│   ├── applications          # Animal apps: cats, dogs, horses
-│   │   ├── Chart.yaml
-│   │   ├── templates
-│   │   ├── values-cats.yaml
-│   │   ├── values-dogs.yaml
-│   │   ├── values-horses.yaml
-│   │   └── values.yaml
-│   └── templates             # Shared Argo Application templates
+│   └── applications          # Animal apps: cats, dogs, horses
+│       ├── Chart.yaml
+│       ├── templates
+│       ├── values-cats.yaml
+│       ├── values-dogs.yaml
+│       ├── values-horses.yaml
+│       └── values.yaml
 ├── Makefile                  # Automated setup commands
 ├── README.md
 └── LICENSE
