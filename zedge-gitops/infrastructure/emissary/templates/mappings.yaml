@@ -16,3 +16,22 @@ spec:
   timeout_ms: 30000
   connect_timeout_ms: 30000
 {{- end }}
+
+{{- if .Values.ingress.argoRollouts.enabled }}
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: argo-rollouts-{{ .Values.ingress.domain }}
+  labels:
+    emissary-host: argo-rollouts-{{ .Values.ingress.domain }}
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  host: rollouts.{{ .Values.ingress.domain }}:*
+  prefix: /
+  service: {{ .Values.ingress.argoRollouts.service }}
+  timeout_ms: 30000
+  connect_timeout_ms: 30000
+{{- end }}
