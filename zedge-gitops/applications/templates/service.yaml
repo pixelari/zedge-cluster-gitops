@@ -3,6 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "farm-application.fullname" . }}
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   selector:
     app: {{ include "farm-application.fullname" . }}

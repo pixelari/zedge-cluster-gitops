@@ -3,6 +3,10 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ include "farm-application.fullname" . }}-pdb
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   minAvailable: 1
   selector:

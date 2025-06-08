@@ -4,8 +4,12 @@ kind: Mapping
 metadata:
   name: {{ include "farm-application.fullname" . }}-mapping
   namespace: emissary
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   hostname: {{ .Values.host }}
   prefix: /
-  service: {{ include "farm-application.fullname" . }}.default.svc
+  service: {{ include "farm-application.fullname" . }}.{{ .Release.Namespace }}.svc
   timeout_ms: {{ .Values.ingress.timeout_ms }}

@@ -4,7 +4,9 @@ kind: ConfigMap
 metadata:
   name: {{ include "farm-application.fullname" . }}-config
   labels:
-    app.kubernetes.io/name: {{ include "farm-application.fullname" . }}
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
 data:
 {{- range $key, $val := .Values.config }}
   {{ $key }}: {{ $val | quote }}
