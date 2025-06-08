@@ -1,6 +1,10 @@
----
+{{- if .Values.rollout.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+{{- else }}
 apiVersion: apps/v1
 kind: Deployment
+{{- end }}
 metadata:
   name: {{ include "farm-application.fullname" . }}
   labels:
@@ -10,7 +14,16 @@ metadata:
     {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
+  {{- if .Values.rollout.enabled }}
   replicas: {{ .Values.replicas }}
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause: {}
+  {{- else }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- end }}
   selector:
     matchLabels:
