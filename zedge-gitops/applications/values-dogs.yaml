@@ -16,7 +16,7 @@ affinity:
         topologyKey: kubernetes.io/hostname
 
 rollout:
-  enabled: false
+  enabled: true
   revisionHistoryLimit: 5
   strategy:
     blueGreen:
