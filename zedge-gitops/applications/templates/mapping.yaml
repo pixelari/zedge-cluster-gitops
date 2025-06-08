@@ -1,4 +1,4 @@
-{{- if eq .Values.rollout.strategyType "canary" }}
+{{- if .Values.rollout.strategy.canary }}
 ---
 apiVersion: getambassador.io/v2
 kind: Mapping
@@ -32,7 +32,7 @@ spec:
   timeout_ms: {{ .Values.ingress.timeout_ms }}
 {{- end }}
 
-{{- if eq .Values.rollout.strategyType "blueGreen" }}
+{{- if .Values.rollout.strategy.blueGreen }}
 ---
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
