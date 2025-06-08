@@ -5,7 +5,7 @@ metadata:
   name: {{ include "farm-application.fullname" . }}-mapping
   namespace: emissary
 spec:
-  host: {{ .Values.host }}
+  hostname: {{ .Values.host }}
   prefix: /
   service: {{ include "farm-application.fullname" . }}.default.svc
   timeout_ms: {{ .Values.ingress.timeout_ms }}
