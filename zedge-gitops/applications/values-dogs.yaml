@@ -1,0 +1,14 @@
+host: dogs.farm:8080
+fullnameOverride: dogs-app
+
+config:
+  HELLO_MSG: "Hello from Dogs!!!"
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+                values:
+                  - dogs

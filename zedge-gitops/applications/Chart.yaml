@@ -1,0 +1,5 @@
+apiVersion: v2
+name: farm-apps
+description: A Helm chart for Farm Kubernetes applications.
+type: application
+version: 0.1.0

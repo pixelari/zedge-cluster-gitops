@@ -1,0 +1,14 @@
+host: cats.farm:8080
+fullnameOverride: cats-app
+
+config:
+  HELLO_MSG: "Hello from Cats!!!"
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+                values:
+                  - cats

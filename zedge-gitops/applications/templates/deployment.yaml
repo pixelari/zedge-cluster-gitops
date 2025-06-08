@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "farm-application.fullname" . }}
+  labels:
+    affinity: {{ include "farm-application.fullname" . }}
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "farm-application.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "farm-application.fullname" . }}
+    spec:
+      containers:
+        - name: {{ include "farm-application.fullname" . }}
+          image: image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - 'echo "$HELLO_MSG"; exec hashicorp/http-echo -text="$HELLO_MSG"'
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "farm-application.fullname" . }}-config
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probePath }}
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probePath }}
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probePath }}
+              port: http
+            failureThreshold: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

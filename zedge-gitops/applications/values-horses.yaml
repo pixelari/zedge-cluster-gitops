@@ -1,0 +1,14 @@
+host: horses.farm:8080
+fullnameOverride: horses-app
+
+config:
+  HELLO_MSG: "Hello from Horses!!!"
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+                values:
+                  - horses
