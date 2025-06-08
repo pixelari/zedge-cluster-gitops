@@ -1,37 +1,37 @@
-{{- if .Values.ingress.argocd.enabled }}
+{{- if .Values.grafana.enabled }}
 ---
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: argocd-{{ .Values.ingress.domain }}
+  name: grafana-{{ .Values.ingress.domain }}
   labels:
-    emissary-host: argocd-{{ .Values.ingress.domain }}
+    emissary-host: grafana-{{ .Values.ingress.domain }}
     {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
-  hostname: argocd.{{ .Values.ingress.domain }}:*
+  hostname: {{ .Values.grafana.hostname }}
   prefix: /
-  service: {{ .Values.ingress.argocd.service }}
+  service: prometheus-stack-grafana.platform:80
   timeout_ms: 30000
   connect_timeout_ms: 30000
 {{- end }}
 
-{{- if .Values.ingress.argoRollouts.enabled }}
+{{- if .Values.prometheus.enabled }}
 ---
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: argo-rollouts-{{ .Values.ingress.domain }}
+  name: prom-{{ .Values.ingress.domain }}
   labels:
-    emissary-host: argo-rollouts-{{ .Values.ingress.domain }}
+    emissary-host: prom-{{ .Values.ingress.domain }}
     {{- include "farm-application.labels" . | nindent 4 }}
   annotations:
     {{- include "farm-application.annotations" . | nindent 4 }}
 spec:
-  hostname: rollouts.{{ .Values.ingress.domain }}:*
+  hostname: {{ .Values.prometheus.hostname }}
   prefix: /
-  service: {{ .Values.ingress.argoRollouts.service }}
+  service: prometheus-stack-grafana.platform:80
   timeout_ms: 30000
   connect_timeout_ms: 30000
 {{- end }}

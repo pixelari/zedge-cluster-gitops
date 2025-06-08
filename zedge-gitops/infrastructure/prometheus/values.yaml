@@ -1,0 +1,29 @@
+kube-prometheus-stack:
+  prometheus-windows-exporter:
+    prometheus:
+      monitor:
+        enabled: false
+
+  grafana:
+    persitence:
+      enabled: false
+    imageRenderer:
+      enabled: true
+    grafana.ini:
+      server:
+        root_url: grafana.farm:8080
+    plugins: {}
+
+serviceMonitor:
+  emissary: true
+
+environment: dev
+
+grafana:
+  enabled: true
+  hostname: grafana.farm:*
+
+prometheus:
+  enabled: true
+  hostname: prom.farm:*
+

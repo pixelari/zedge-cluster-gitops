@@ -1,0 +1,20 @@
+{{- if (default .Values.serviceMonitor.emissary true) }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: emissary-monitor
+  labels:
+    app.kubernetes.io/instance: emissary
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  namespaceSelector:
+    matchNames:
+    - emissary
+  selector:
+    matchLabels:
+      service: ambassador-admin
+  endpoints:
+  - port: ambassador-admin
+{{- end }}
