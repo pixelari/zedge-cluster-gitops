@@ -23,6 +23,12 @@ rollout:
   revisionHistoryLimit: 5
   strategy:
     canary:
+      stableService: horses-app
+      canaryService: horses-preview
+      trafficRouting:
+        ambassador:
+          mappings:
+            - horses-app-mapping
       steps:
         - setWeight: 25
         - pause:
@@ -31,5 +37,4 @@ rollout:
         - pause:
             duration: 30s
         - setWeight: 90
-        - pause:
-            duration: {}
+        - pause: {}
