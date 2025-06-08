@@ -3,11 +3,12 @@ fullnameOverride: horses-app
 
 image:
   repository: hashicorp/http-echo
+  tag: 1.0
 
 containerPort: 5678
 
 config:
-  ECHO_TEXT: "Hello from Horses!!! VERSION 1"
+  ECHO_TEXT: "Hello from Horses!!! VERSION 2"
 
 affinity:
   podAntiAffinity:
