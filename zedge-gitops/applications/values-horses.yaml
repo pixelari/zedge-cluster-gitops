@@ -24,7 +24,7 @@ rollout:
   strategy:
     canary:
       stableService: horses-app
-      canaryService: horses-preview
+      canaryService: horses-app-preview
       trafficRouting:
         ambassador:
           mappings:
