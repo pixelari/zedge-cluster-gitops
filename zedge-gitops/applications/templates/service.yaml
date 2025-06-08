@@ -13,3 +13,21 @@ spec:
   ports:
     - port: {{ .Values.port }}
       targetPort: {{ .Values.containerPort }}
+
+{{- if .Values.rollout.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "farm-application.fullname" . }}-preview
+  labels:
+    {{- include "farm-application.labels" . | nindent 6 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 6 }}
+spec:
+  selector:
+    app: {{ include "farm-application.fullname" . }}
+  ports:
+    - port: {{ .Values.port }}
+      targetPort: {{ .Values.containerPort }}
+{{- end }}

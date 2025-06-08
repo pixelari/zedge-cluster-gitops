@@ -1,3 +1,21 @@
+{{- if eq .Values.rollout.strategyType "canary" }}
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: {{ include "farm-application.fullname" . }}-mapping
+  namespace: emissary
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  hostname: {{ .Values.host }}
+  prefix: /
+  service: {{ include "farm-application.fullname" . }}.{{ .Release.Namespace }}.svc
+  timeout_ms: {{ .Values.ingress.timeout_ms }}
+  resolver: endpoint
+{{- else }}
 ---
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
@@ -13,3 +31,22 @@ spec:
   prefix: /
   service: {{ include "farm-application.fullname" . }}.{{ .Release.Namespace }}.svc
   timeout_ms: {{ .Values.ingress.timeout_ms }}
+{{- end }}
+
+{{- if eq .Values.rollout.strategyType "blueGreen" }}
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: {{ include "farm-application.fullname" . }}-preview-mapping
+  namespace: emissary
+  labels:
+    {{- include "farm-application.labels" . | nindent 6 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 6 }}
+spec:
+  hostname: preview-{{ .Values.host }}
+  prefix: /
+  service: {{ include "farm-application.fullname" . }}-preview.{{ .Release.Namespace }}.svc
+  timeout_ms: {{ .Values.ingress.timeout_ms }}
+{{- end }}
