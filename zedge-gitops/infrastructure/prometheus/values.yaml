@@ -18,6 +18,18 @@ kube-prometheus-stack:
       server:
         root_url: grafana.farm:8080
 
+    alertmanager:
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          receiver: discord
+        receivers:
+          - name: discord
+            webhook_configs:
+              - url: "https://discord.com/api/webhooks/1381264779888427110/K2psatWfc-81ZOKQd54e-me0fqGgkmiJICVaL1mMVTiqTvS7ttjgaJCbfmQr3WF5GVlZ"
+                send_resolved: true
+
 serviceMonitor:
   emissary: true
 

@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: always-firing-test
+  namespace: platform  # Match your Prometheus release namespace
+  labels:
+    release: prometheus-stack
+    prometheus: kube-prometheus-stack
+spec:
+  groups:
+    - name: test.rules
+      rules:
+        - alert: AlwaysFiringTest
+          expr: vector(1)
+          for: 10s
+          labels:
+            severity: info
+          annotations:
+            summary: "Always Firing (test alert)"
+            description: "This is a test alert that always fires. Useful to validate Alertmanager wiring."
