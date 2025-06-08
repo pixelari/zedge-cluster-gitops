@@ -1,4 +1,4 @@
-host: catsv2.farm:8080
+host: catsv2.farm:*
 fullnameOverride: cats-app
 
 config:

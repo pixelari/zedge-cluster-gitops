@@ -11,5 +11,5 @@ spec:
   selector:
     app: {{ include "farm-application.fullname" . }}
   ports:
-    - port: {{ .Values.containerPort }}
-      targetPort: {{ .Values.port }}
+    - port: {{ .Values.port }}
+      targetPort: {{ .Values.containerPort }}

@@ -1,4 +1,4 @@
-host: horses.farm:8080
+host: horses.farm:*
 fullnameOverride: horses-app
 
 config:

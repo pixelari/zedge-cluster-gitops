@@ -1,4 +1,4 @@
-host: dogsv2.farm:8080
+host: dogsv2.farm:*
 fullnameOverride: dogs-app
 
 config:
