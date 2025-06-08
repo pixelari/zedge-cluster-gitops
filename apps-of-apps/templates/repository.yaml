@@ -1,0 +1,16 @@
+{{- if .Values.createRepositories }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: farm-gitops
+  namespace: {{ .Values.namespace }}
+  labels:
+    argocd.argoproj.io/secret-type: repository
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+stringData:
+  type: git
+  url: https://github.com/pixelari/zedge-cluster-gitops.git
+{{- end }}

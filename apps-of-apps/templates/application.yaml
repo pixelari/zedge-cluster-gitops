@@ -1,0 +1,106 @@
+{{ $dot := . }}
+{{- if .Values.apps }}
+    {{- range $app := .Values.apps }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $app.name }}
+  namespace: {{ $dot.Values.namespace }}
+  labels:
+    {{- include "farm-application.labels" $dot | nindent 4 }}
+    infrastruction: "false"
+  annotations:
+    {{- include "farm-application.annotations" $dot | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ $app.namespace }}
+    server: https://kubernetes.default.svc
+  project: {{ $dot.Values.argoProject }}-applications
+  source:
+    helm:
+      parameters:
+      - name: environment
+        value: {{ $dot.Values.environment }}
+      releaseName: {{ $app.name }}
+    {{- with $app.valueFiles }}
+      valueFiles:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    path: {{ $app.repoPath }}
+    repoURL: {{ $app.repoURL }}
+    targetRevision: {{ $app.branch }}
+  {{- if $app.enableAutoSync }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    {{- if $app.serverSideApply }}
+    - ServerSideApply=true
+    {{- end }}
+    - Retry=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 1m
+  {{- end }}
+{{- end }}
+{{- end }}
+
+{{- if .Values.infraApps }}
+    {{- range $app := .Values.infraApps }}
+        {{- if $app.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $app.name }}
+  namespace: {{ $dot.Values.namespace }}
+  labels:
+    {{- include "farm-application.labels" $dot | nindent 4 }}
+    infrastruction: "true"
+  annotations:
+    {{- include "farm-application.annotations" $dot | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ $app.namespace }}
+    server: https://kubernetes.default.svc
+  project: {{ $dot.Values.argoProject }}-infrastructure
+  source:
+    helm:
+      parameters:
+      - name: environment
+        value: {{ $dot.Values.environment }}
+      releaseName: {{ $app.name }}
+    {{- with $app.valueFiles }}
+      valueFiles:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    path: {{ $app.repoPath }}
+    repoURL: {{ $app.repoURL }}
+    targetRevision: {{ $app.branch }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    {{- if $app.serverSideApply }}
+    - ServerSideApply=true
+    {{- end }}
+    - Retry=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 1m
+        {{- end }}
+    {{- end }}
+{{- end }}

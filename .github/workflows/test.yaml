@@ -1,0 +1,14 @@
+name: Dev Environment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    name: 'Deployment'
+    uses: ./.github/workflows/ci.yaml
+    with:
+      environment: "Dev"

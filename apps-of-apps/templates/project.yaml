@@ -1,0 +1,53 @@
+{{- if .Values.createProject }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.argoProject }}-applications
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: {{ .Values.argoProject | title }} GitOps
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.argoProject }}-infrastructure
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: {{ .Values.argoProject | title }} GitOps
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+{{- end }}

@@ -1,0 +1,103 @@
+environment: test
+namespace: argocd
+
+namespaces:
+  - name: cert-manager
+  - name: external-secrets
+  - name: emissary
+  - name: farm
+  - name: platform
+  - name: argo-rollouts
+
+argo:
+  enabled: true
+  service: argocd-server
+  namespace: argocd
+  port: 80
+
+argoProject: farm
+
+createProject: true
+createRepositories: true
+createRepoSecret: true
+repoPAT: placeholder
+
+infraApps:
+  - name: emissary
+    enabled: true
+    namespace: emissary
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/infrastructure/emissary
+    valueFiles:
+      - ./values.yaml
+  - name: cert-manager
+    enabled: true
+    namespace: cert-manager
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/infrastructure/cert-manager
+    valueFiles:
+      - ./values.yaml
+  - name: argo-rollouts
+    enabled: true
+    namespace: argo-rollouts
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/infrastructure/argo-rollouts
+    valueFiles:
+      - ./values.yaml
+  - name: prometheus-stack
+    enabled: true
+    namespace: platform
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/infrastructure/prometheus
+    serverSideApply: true
+    valueFiles:
+      - ./values.yaml
+  # - name: external-secrets
+  #   enabled: true
+  #   namespace: external-secrets
+  #   branch: main
+  #   repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+  #   repoPath: zedge-gitops/infrastructure/external-secrets
+  #   valueFiles:
+  #     - ./values.yaml
+  # - name: cm-reloader
+  #   enabled: true
+  #   namespace: platform
+  #   branch: main
+  #   repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+  #   repoPath: zedge-gitops/infrastructure/cm-reloader
+  #   valueFiles:
+  #     - ./values.yaml
+
+apps:
+  - name: cats
+    namespace: farm
+    enableAutoSync: true
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/applications
+    valueFiles:
+      - ./values.yaml
+      - ./values-cats.yaml
+  - name: dogs
+    namespace: farm
+    enableAutoSync: true
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/applications
+    valueFiles:
+      - ./values.yaml
+      - ./values-dogs.yaml
+  - name: horses
+    namespace: farm
+    enableAutoSync: true
+    branch: main
+    repoURL: https://github.com/pixelari/zedge-cluster-gitops.git
+    repoPath: zedge-gitops/applications
+    valueFiles:
+      - ./values.yaml
+      - ./values-horses.yaml

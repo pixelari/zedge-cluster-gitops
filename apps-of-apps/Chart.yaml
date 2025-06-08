@@ -1,0 +1,5 @@
+apiVersion: v2
+name: farm-gitops
+description: A Helm chart for Farm Kubernetes cluster GitOps bootstrap.
+type: application
+version: 0.1.0

@@ -1,0 +1,11 @@
+127.0.0.1 alerts.farm
+127.0.0.1 grafana.farm
+127.0.0.1 prom.farm
+127.0.0.1 rollouts.farm
+127.0.0.1 horses.farm
+127.0.0.1 ducks.farm
+127.0.0.1 cows.farm
+127.0.0.1 chickens.farm
+127.0.0.1 cats.farm
+127.0.0.1 dogs.farm
+127.0.0.1 argocd.farm

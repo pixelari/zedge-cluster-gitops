@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  ci:
+    name: 'CI'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+    strategy:
+      matrix:
+        release_name: ['zedge-gitops-${{ inputs.environment }}']
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      TIMEOUT: '5m0s'
+      VALUES_FILE_ARGS: ${{ vars.VALUES_FILE_ARGS}}
+      # Used to connect to GCP project to actually deploy Helm upgrade
+      # GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      # GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
+      # GKE_CLUSTER_LOCATION: ${{ vars.GKE_CLUSTER_LOCATION }}
+      # WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Install Helm'
+        uses: azure/setup-helm@v4
+
+      - name: 'Install helm-diff plugin'
+        if: github.event_name == 'pull_request'
+        run: |
+          if ! helm plugin list | grep -q helm-diff; then
+            helm plugin install https://github.com/databus23/helm-diff
+          fi
+
+      - name: 'Helm Diff'
+        if: github.event_name == 'pull_request'
+        run: |
+          helm diff upgrade zedge-gitops . \
+            ${{ env.VALUES_FILE_ARGS }}
+
+      - name: 'Deploy Helm'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main')
+        run: |
+          helm upgrade --install zedge-gitops . \
+            ${{ env.VALUES_FILE_ARGS }} \
+            --atomic \
+            --wait \
+            --timeout ${{ env.TIMEOUT }}

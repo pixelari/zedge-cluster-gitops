@@ -1,0 +1,14 @@
+{{- if .Values.namespaces }}
+  {{- range $namespace := .Values.namespaces }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace.name }}
+  labels:
+    name: {{ $namespace.name }}
+    {{- include "farm-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" $ | nindent 4 }}
+  {{- end }}
+{{- end }}
