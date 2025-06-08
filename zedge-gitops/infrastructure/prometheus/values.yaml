@@ -4,6 +4,10 @@ kube-prometheus-stack:
       monitor:
         enabled: false
 
+  prometheusSpec:
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+
   grafana:
     persitence:
       enabled: false
