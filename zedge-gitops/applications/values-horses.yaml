@@ -28,7 +28,7 @@ rollout:
       trafficRouting:
         ambassador:
           mappings:
-            - horses-app-mapping.emissary
+            - horses-app-mapping
       steps:
         - setWeight: 25
         - pause:

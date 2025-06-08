@@ -1,6 +1,6 @@
 {{- if .Values.rollout.strategy.canary }}
 ---
-apiVersion: getambassador.io/v2
+apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
   name: {{ include "farm-application.fullname" . }}-mapping
