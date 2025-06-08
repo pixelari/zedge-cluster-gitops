@@ -1,8 +1,8 @@
-host: catsv2.farm:*
+host: cats.farm:*
 fullnameOverride: cats-app
 
 config:
-  ECHO_TEXT: "Hello from Cats!!!zz!"
+  ECHO_TEXT: "Hello from Cats!!!"
 
 affinity:
   podAntiAffinity:
