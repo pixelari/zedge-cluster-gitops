@@ -33,3 +33,21 @@ spec:
   timeout_ms: 30000
   connect_timeout_ms: 30000
 {{- end }}
+
+{{- if .Values.alertmanager.enabled }}
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: alertmanager-mapping
+  labels:
+    {{- include "farm-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "farm-application.annotations" . | nindent 4 }}
+spec:
+  hostname: {{ .Values.alertmanager.hostname }}
+  prefix: /
+  service: prometheus-stack-kube-prom-alertmanager:9093
+  timeout_ms: 30000
+  connect_timeout_ms: 30000
+{{- end }}

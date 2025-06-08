@@ -9,6 +9,11 @@ kube-prometheus-stack:
       enabled: false
     imageRenderer:
       enabled: false
+    plugins:
+      - grafana-piechart-panel
+      - vonage-status-panel
+      - jdbranham-diagram-panel
+      - yesoreyeram-boomtable-panel
     grafana.ini:
       server:
         root_url: grafana.farm:8080
@@ -26,3 +31,6 @@ prometheus:
   enabled: true
   hostname: prom.farm:*
 
+alertmanager:
+  enabled: true
+  hostname: alerts.farm:*
