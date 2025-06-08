@@ -4,6 +4,8 @@ fullnameOverride: horses-app
 image:
   repository: hashicorp/http-echo
 
+containerPort: 5678
+
 config:
   ECHO_TEXT: "Hello from Horses!!! VERSION 1"
 
