@@ -17,11 +17,7 @@ spec:
   {{- if .Values.rollout.enabled }}
   revisionHistoryLimit: {{ .Values.rollout.revisionHistoryLimit }}
   replicas: {{ .Values.replicas }}
-  strategy:
-    canary:
-      steps:
-        - setWeight: 50
-        - pause: {}
+  strategy: {{ toYaml .Values.rollout.strategy | nindent 4 }}
   {{- else }}
   replicas: {{ .Values.replicas }}
   {{- end }}

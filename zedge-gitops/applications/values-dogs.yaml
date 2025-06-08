@@ -14,3 +14,13 @@ affinity:
               values:
                 - dogs
         topologyKey: kubernetes.io/hostname
+
+rollout:
+  enabled: false
+  revisionHistoryLimit: 5
+  strategy:
+    blueGreen:
+      activeService: dogs-app
+      previewService: dogs-app-preview
+      autoPromotionEnabled: false
+      autoPromotionSeconds: 60
