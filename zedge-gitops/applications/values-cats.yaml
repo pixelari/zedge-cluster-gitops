@@ -1,6 +1,11 @@
 host: cats.farm:*
 fullnameOverride: cats-app
 
+image:
+  repository: mendhak/http-https-echo
+
+containerPort: 8080
+
 config:
   ECHO_TEXT: "Hello from Cats!!!"
 
