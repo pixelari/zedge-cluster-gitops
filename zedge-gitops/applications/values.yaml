@@ -49,6 +49,7 @@ affinity:
 
 rollout:
   enabled: false
+  revisionHistoryLimit: 5
   strategy:
     canary:
       steps:

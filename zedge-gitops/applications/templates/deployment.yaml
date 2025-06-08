@@ -15,6 +15,7 @@ metadata:
 spec:
   {{- if not .Values.autoscaling.enabled }}
   {{- if .Values.rollout.enabled }}
+  revisionHistoryLimit: {{ .Values.rollout.revisionHistoryLimit }}
   replicas: {{ .Values.replicas }}
   strategy:
     canary:
