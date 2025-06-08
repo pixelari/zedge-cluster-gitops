@@ -50,12 +50,12 @@ affinity:
 rollout:
   enabled: false
   revisionHistoryLimit: 5
-  strategy:
-    canary:
-      steps:
-        - setWeight: 25
-        - pause:
-            duration: 30s
-        - setWeight: 50
-        - pause:
-            duration: 30s
+  # strategy:
+  #   canary:
+  #     steps:
+  #       - setWeight: 25
+  #       - pause:
+  #           duration: 30s
+  #       - setWeight: 50
+  #       - pause:
+  #           duration: 30s
