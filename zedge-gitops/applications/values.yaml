@@ -1,7 +1,7 @@
 environment: dev
 
 image:
-  repository: hashicorp/http-echo
+  repository: mendhak/http-https-echo
   pullPolicy: Always
   tag: "latest"
 
@@ -27,7 +27,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 port: 80
-containerPort: 5678
+containerPort: 8080
 
 ingress:
   timeout_ms: 30000
