@@ -5,7 +5,7 @@ global:
     app.kubernetes.io/environment: dev
 configs:
   params:
-    timeout.reconciliation: 60
+    timeout.reconciliation: 30s
     server.insecure: "true"
   cm:
     resource.compareoptions: |
@@ -13,3 +13,33 @@ configs:
     resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
       jsonPointers:
       - /spec/preserveUnknownFields
+    application.resourceTrackingMethod: annotation+label
+    resource.customizations.health.argoproj.io_Rollout: |
+      hs = {}
+      if obj.status ~= nil then
+        if obj.status.pauseConditions ~= nil and #obj.status.pauseConditions > 0 then
+          hs.status = "Degraded"
+          hs.message = "Rollout is paused"
+          return hs
+        end
+        if obj.status.readyReplicas ~= nil and obj.status.updatedReplicas ~= nil and obj.status.readyReplicas < obj.status.updatedReplicas then
+          hs.status = "Progressing"
+          hs.message = "Updated replicas are not all ready"
+          return hs
+        end
+        if obj.status.conditions ~= nil then
+          for _, condition in ipairs(obj.status.conditions) do
+            if condition.type == "Progressing" and condition.status == "False" then
+              hs.status = "Degraded"
+              hs.message = condition.message
+              return hs
+            end
+          end
+        end
+      end
+      hs.status = "Healthy"
+      hs.message = "Rollout is healthy"
+      return hs
+server:
+  extraArgs:
+    - --rollouts-enabled
