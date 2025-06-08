@@ -12,7 +12,6 @@ kube-prometheus-stack:
     grafana.ini:
       server:
         root_url: grafana.farm:8080
-    plugins: {}
 
 serviceMonitor:
   emissary: true
