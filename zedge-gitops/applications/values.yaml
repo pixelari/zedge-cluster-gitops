@@ -11,10 +11,10 @@ probePath: /
 
 resources:
   limits:
-    memory: 32Mi
+    memory: 48Mi
   requests:
-    cpu: 3m
-    memory: 16Mi
+    cpu: 5m
+    memory: 24Mi
 
 config:
   ENVIRONMENT: dev
