@@ -11,3 +11,6 @@ ingress:
   argocd:
     enabled: true
     service: argocd-server.argocd:80
+  argoRollouts:
+    enabled: true
+    service: argo-rollouts-dashboard.argo-rollouts:3100
