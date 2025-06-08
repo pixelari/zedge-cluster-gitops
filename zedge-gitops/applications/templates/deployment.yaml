@@ -22,12 +22,8 @@ spec:
     spec:
       containers:
         - name: {{ include "farm-application.fullname" . }}
-          image: image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh"]
-          args:
-            - "-c"
-            - 'echo "$HELLO_MSG"; exec hashicorp/http-echo -text="$HELLO_MSG"'
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}

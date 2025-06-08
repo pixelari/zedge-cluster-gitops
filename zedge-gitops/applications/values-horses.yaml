@@ -2,13 +2,17 @@ host: horses.farm:8080
 fullnameOverride: horses-app
 
 config:
-  HELLO_MSG: "Hello from Horses!!!"
+  ECHO_TEXT: "Hello from Horses!!!"
 
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
         podAffinityTerm:
           labelSelector:
             matchExpressions:
+              - key: app
+                operator: In
                 values:
                   - horses
+          topologyKey: kubernetes.io/hostname

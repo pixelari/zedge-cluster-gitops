@@ -1,14 +1,18 @@
-host: cats.farm:8080
+host: catsv2.farm:8080
 fullnameOverride: cats-app
 
 config:
-  HELLO_MSG: "Hello from Cats!!!"
+  ECHO_TEXT: "Hello from Cats!!!zz!"
 
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
         podAffinityTerm:
           labelSelector:
             matchExpressions:
+              - key: app
+                operator: In
                 values:
                   - cats
+          topologyKey: kubernetes.io/hostname

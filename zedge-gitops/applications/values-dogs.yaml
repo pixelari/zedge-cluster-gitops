@@ -1,14 +1,18 @@
-host: dogs.farm:8080
+host: dogsv2.farm:8080
 fullnameOverride: dogs-app
 
 config:
-  HELLO_MSG: "Hello from Dogs!!!"
+  ECHO_TEXT: "Hello from Dogs!!!"
 
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
         podAffinityTerm:
           labelSelector:
             matchExpressions:
+              - key: app
+                operator: In
                 values:
                   - dogs
+          topologyKey: kubernetes.io/hostname
