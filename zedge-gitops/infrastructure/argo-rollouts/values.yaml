@@ -5,3 +5,6 @@ argo-rollouts:
       enabled: true
     serviceAccount:
       create: true
+
+  dashboard:
+    enabled: true
