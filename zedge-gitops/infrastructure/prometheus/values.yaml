@@ -18,17 +18,17 @@ kube-prometheus-stack:
       server:
         root_url: grafana.farm:8080
 
-    alertmanager:
-      config:
-        global:
-          resolve_timeout: 5m
-        route:
-          receiver: test
-        receivers:
-          - name: test
-            webhook_configs:
-              - url: "https://webhook.site/b7a32905-1746-4b0c-910c-b41cdc2e113b"
-                send_resolved: true
+  alertmanager:
+    config:
+      global:
+        resolve_timeout: 5m
+      route:
+        receiver: test
+      receivers:
+        - name: test
+          webhook_configs:
+            - url: "https://webhook.site/b7a32905-1746-4b0c-910c-b41cdc2e113b"
+              send_resolved: true
 
 serviceMonitor:
   emissary: true
