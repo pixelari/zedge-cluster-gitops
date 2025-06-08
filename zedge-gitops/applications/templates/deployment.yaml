@@ -24,12 +24,12 @@ spec:
         - name: {{ include "farm-application.fullname" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.containerPort }}
           envFrom:
-            - configMapRef:
-                name: {{ include "farm-application.fullname" . }}-config
+          - configMapRef:
+              name: {{ include "farm-application.fullname" . }}-config
+          ports:
+          - name: http
+            containerPort: {{ .Values.containerPort }}
           livenessProbe:
             httpGet:
               path: {{ .Values.probePath }}

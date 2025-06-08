@@ -7,11 +7,10 @@ config:
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - dogs
-          topologyKey: kubernetes.io/hostname
+      - labelSelector:
+          matchExpressions:
+            - key: app
+              operator: In
+              values:
+                - dogs
+        topologyKey: kubernetes.io/hostname
