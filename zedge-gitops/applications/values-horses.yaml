@@ -3,7 +3,7 @@ fullnameOverride: horses-app
 
 image:
   repository: hashicorp/http-echo
-  tag: 1.0
+  tag: "1.0"
 
 containerPort: 5678
 
