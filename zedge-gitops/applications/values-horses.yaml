@@ -1,8 +1,11 @@
 host: horses.farm:*
 fullnameOverride: horses-app
 
+image:
+  repository: hashicorp/http-echo
+
 config:
-  ECHO_TEXT: "Hello from Horses!!!"
+  ECHO_TEXT: "Hello from Horses!!! VERSION 1"
 
 affinity:
   podAntiAffinity:
@@ -14,3 +17,19 @@ affinity:
               values:
                 - horses
         topologyKey: kubernetes.io/hostname
+
+rollout:
+  enabled: true
+  revisionHistoryLimit: 5
+  strategy:
+    canary:
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 30s
+        - setWeight: 50
+        - pause:
+            duration: 30s
+        - setWeight: 90
+        - pause:
+            duration: {}
